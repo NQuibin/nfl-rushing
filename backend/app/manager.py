@@ -1,6 +1,6 @@
 import re
 
-from typing import List, Optional
+from typing import Optional
 
 from pymongo import ASCENDING
 
@@ -15,9 +15,11 @@ class PlayerStatsManager:
     def _to_model(self, stat: dict) -> PlayerStat:
         kwargs = {
             **stat,
-            'id': str(stat.get('_id'))
+            'id': str(stat.get('_id')),
+            'lng': '{:g}T'.format(stat.get('lng')) if stat.get('lng_is_td') else stat.get('lng')
         }
         kwargs.pop('_id', None)
+        kwargs.pop('lng_is_td', None)
 
         return PlayerStat(**kwargs)
 
@@ -28,9 +30,9 @@ class PlayerStatsManager:
             order: int = ASCENDING,
             page_num: int = 1,
             page_size: int = 25
-    ):
+    ) -> PaginatedData:
         fields = {}
-        if player is not None:
+        if player:
             like_player_rgx = re.compile(f'.*{player}.*', re.IGNORECASE)
             fields = {'player': like_player_rgx}
 
@@ -40,7 +42,7 @@ class PlayerStatsManager:
         sort_fields.append(('player', order))
         sort_fields.append(('_id', ASCENDING))
 
-        results = self.repository.find_all(
+        results, total = self.repository.find_all(
             fields=fields,
             sort_fields=sort_fields,
             page_num=page_num,
@@ -49,8 +51,9 @@ class PlayerStatsManager:
         return PaginatedData(
             data=[self._to_model(stat) for stat in results],
             page_num=page_num,
-            page_size=len(results)
+            page_size=len(results),
+            total=total
         )
 
-    def insert_many_player_stats(self, player_stats: List) -> List:
+    def insert_many_player_stats(self, player_stats: list) -> list:
         return self.repository.insert_many(player_stats)

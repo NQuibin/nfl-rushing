@@ -1,14 +1,21 @@
-from typing import Optional, Literal
+from typing import Optional
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pymongo import ASCENDING, DESCENDING
 
-from .exceptions import HttpException
 from .manager import PlayerStatsManager
 from .models import PaginatedData
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:8080'],
+    allow_methods=['*'],
+    allow_headers=['*']
+)
+
 manager = PlayerStatsManager()
 
 
