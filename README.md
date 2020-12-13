@@ -29,11 +29,11 @@ We have sets of records representing football players' rushing statistics. All r
 * `40+` (Rushing 40+ Yards Each)
 * `FUM` (Rushing Fumbles)
 
-In this repo is a sample data file [`rushing.json`](/rushing.json).
+In this repo is a sample data file [`rushing.json`](/backend/seed/rushing.json).
 
 ##### Challenge Requirements
 1. Create a web app. This must be able to do the following steps
-    1. Create a webpage which displays a table with the contents of [`rushing.json`](/rushing.json)
+    1. Create a webpage which displays a table with the contents of [`rushing.json`](/backend/seed/rushing.json)
     2. The user should be able to sort the players by _Total Rushing Yards_, _Longest Rush_ and _Total Rushing Touchdowns_
     3. The user should be able to filter by the player's name
     4. The user should be able to download the sorted data as a CSV, as well as a filtered subset
