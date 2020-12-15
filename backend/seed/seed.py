@@ -5,6 +5,7 @@ from os import getcwd
 from pathlib import Path
 
 path = Path(getcwd())
+sys.path.insert(0, str(path.parent))
 sys.path.insert(0, str(path.parent.parent))
 
 from backend.app.manager import PlayerStatsManager

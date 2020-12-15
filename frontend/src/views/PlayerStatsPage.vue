@@ -3,6 +3,13 @@
     fluid
     class="player-stats-container px-12"
   >
+    <v-snackbar
+      v-model="showSnack"
+      color="error"
+      :timeout="2000"
+    >
+      {{ snackMessage }}
+    </v-snackbar>
     <v-row>
       <v-col cols="12">
         <h1>
@@ -43,7 +50,9 @@ export default {
   data () {
     return {
       isLoading: true,
-      filters: {}
+      filters: {},
+      showSnack: false,
+      snackMessage: null
     }
   },
   computed: {
@@ -60,6 +69,10 @@ export default {
       getPlayerStats: 'playerStats/getPlayerStats',
       downloadPlayerStats: 'playerStats/downloadPlayerStats'
     }),
+    displaySnackError () {
+      this.showSnack = true
+      this.snackMessage = 'Cannot fetch player stats, please try again.'
+    },
     async onSearch (text) {
       this.isLoading = true
       this.filters.player = text
@@ -72,6 +85,8 @@ export default {
           ascending: this.filters.ascending,
           pageSize: this.filters.pageSize
         })
+      } catch (err) {
+        this.displaySnackError()
       } finally {
         this.isLoading = false
       }
@@ -90,6 +105,8 @@ export default {
 
       try {
         await this.getPlayerStats(this.filters)
+      } catch (err) {
+        this.displaySnackError()
       } finally {
         this.isLoading = false
       }

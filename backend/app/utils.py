@@ -4,7 +4,6 @@ from typing import Union
 
 from io import StringIO
 
-
 player_stats_mapping = {
     'player': 'Player',
     'team': 'Team',
