@@ -10,4 +10,9 @@ export default class PlayerStatsClient {
   getPlayerStats (params) {
     return this.client.get('/v1/player-stats', { params })
   }
+
+  downloadPlayerStats (params) {
+    const query = new URLSearchParams(params)
+    window.location = `${this.client.defaults.baseURL}/v1/player-stats/download?${query.toString()}`
+  }
 }

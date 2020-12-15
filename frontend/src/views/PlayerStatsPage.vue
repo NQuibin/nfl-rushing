@@ -11,14 +11,17 @@
     <v-row>
       <v-col cols="12"
       >
-        <v-row>
+        <v-row align="center">
           <v-col
-            cols="2"
+            cols="12"
+            sm="3"
           >
             <v-text-field
-              v-model.trim="searchValue"
+              v-model.trim="searchText"
               outlined
+              hide-details
               placeholder="Filter by player name"
+              height="36"
               @keydown.enter="onSearch"
             />
           </v-col>
@@ -26,9 +29,17 @@
             <v-btn
               depressed
               color="primary"
+              class="mr-3"
               @click="onSearch"
             >
               Search
+            </v-btn>
+            <v-btn
+              depressed
+              color="secondary"
+              @click="onDownload"
+            >
+              Download
             </v-btn>
           </v-col>
         </v-row>
@@ -37,12 +48,17 @@
     <v-row>
       <v-col cols="12">
         <v-data-table
-          height="70vh"
+          height="65vh"
+          fixed-header
+          sort-by="player"
           :headers="headers"
-          :fixed-header="true"
           :items="stats"
+          :items-per-page="25"
+          :page="filters.page"
           :server-items-length="totalPlayerStats"
           :loading="isLoading"
+          :footer-props="{ itemsPerPageOptions: [5, 10, 25] }"
+          :must-sort="true"
           @update:options="onUpdate"
         />
       </v-col>
@@ -58,7 +74,8 @@ export default {
   data () {
     return {
       isLoading: true,
-      searchValue: null
+      searchText: null,
+      filters: {},
     }
   },
   computed: {
@@ -87,38 +104,49 @@ export default {
     },
     stats () {
       return this.playerStats || []
-    },
-    itemsLength () {
-      return this.playerStats ? this.playerStats.length : 0
     }
   },
   methods: {
     ...mapActions({
-      getPlayerStats: 'playerStats/getPlayerStats'
+      getPlayerStats: 'playerStats/getPlayerStats',
+      downloadPlayerStats: 'playerStats/downloadPlayerStats'
     }),
     async onSearch () {
+      this.isLoading = true
+      this.filters.player = this.searchText
+      this.filters.page = 1
+
       try {
-        this.isLoading = true
-        await this.getPlayerStats({ player: this.searchValue })
+        await this.getPlayerStats({
+          player: this.searchText,
+          sortField: this.filters.sortField,
+          ascending: this.filters.ascending,
+          pageSize: this.filters.pageSize
+        })
       } finally {
         this.isLoading = false
       }
     },
     async onUpdate (options) {
-      console.log(options)
+      this.isLoading = true
+
       const { sortBy, sortDesc, page, itemsPerPage } = options
-      const params = {
-        player: this.searchValue,
-        sort_field: sortBy.length ? sortBy[0] : null,
+      this.filters = {
+        player: this.filters.player || '',
+        sortField: sortBy.length ? sortBy[0] : null,
         ascending: sortDesc.length ? !sortDesc[0] : null,
         page: page,
-        page_size: itemsPerPage
+        pageSize: itemsPerPage
       }
+
       try {
-        await this.getPlayerStats(params)
+        await this.getPlayerStats(this.filters)
       } finally {
         this.isLoading = false
       }
+    },
+    async onDownload () {
+      await this.downloadPlayerStats(this.filters)
     }
   }
 }

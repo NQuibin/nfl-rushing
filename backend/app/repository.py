@@ -18,12 +18,12 @@ class PlayerStatsRepository:
     def __init__(self):
         self.collection = get_collection()
 
-    def find_all(self, fields: dict, sort_fields: list, page_num: int = 1, page_size: int = 25) -> tuple:
+    def find_all(self, fields: dict, sort_fields: list, page: int = 1, page_size: int = 0) -> tuple:
         doc_count = self.collection.count_documents(fields)
         docs = self.collection \
             .find(fields) \
             .sort(sort_fields) \
-            .skip(page_size * (page_num - 1)) \
+            .skip(page_size * (page - 1)) \
             .limit(page_size)
 
         return list(docs), doc_count

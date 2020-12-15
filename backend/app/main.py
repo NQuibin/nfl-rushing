@@ -1,7 +1,8 @@
 from typing import Optional
+from datetime import datetime
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import ASCENDING, DESCENDING
 
@@ -31,16 +32,33 @@ def get_player_stats(
         player: Optional[str] = None,
         sort_field: Optional[str] = 'player',
         ascending: bool = True,
-        page_num: Optional[int] = 1,
+        page: Optional[int] = 1,
         page_size: Optional[int] = 25
 ):
     order = ASCENDING if ascending else DESCENDING
-    return manager.find_all(
+    return manager.find_all_paginated(
         player=player,
         sort_field=sort_field,
         order=order,
-        page_num=page_num,
+        page=page,
         page_size=page_size
     )
 
 
+@app.get('/v1/player-stats/download')
+def download_file(
+        player: Optional[str] = None,
+        sort_field: Optional[str] = 'player',
+        ascending: bool = True
+):
+    order = ASCENDING if ascending else DESCENDING
+    file_like = manager.get_download_file_stream(
+        player=player,
+        sort_field=sort_field,
+        order=order
+    )
+    return StreamingResponse(
+        iter([file_like.getvalue()]),
+        media_type='text/csv',
+        headers={'Content-Disposition': f'attachment; filename=theRush_{datetime.now().date()}.csv'}
+    )

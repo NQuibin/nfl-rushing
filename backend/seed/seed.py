@@ -20,7 +20,7 @@ def insert_seed_data(file_name: str):
         transformed_stats.append(transform_stat(stat))
 
     manager = PlayerStatsManager()
-    manager.insert_many_player_stats(transformed_stats)
+    manager.insert_many(transformed_stats)
 
 
 if __name__ == '__main__':

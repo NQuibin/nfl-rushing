@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class PaginatedData(BaseModel):
     data: List
-    page_num: int
+    page: int
     page_size: int
     total: int
 
