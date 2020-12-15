@@ -105,3 +105,8 @@ If you have any questions regarding requirements, do not hesitate to email your 
    yarn serve
    ```
 4. Navigate to url shown (ex. http://localhost:8080/) to open app.
+
+### Remarks
+* It's possible to not have to download `python3.8`, `node`, or `yarn` using a `Dockerfile` but I'm not too familiar with creating docker images.
+* For sorting on `Lng`, it is ordered by value and then if it's a touchdown ([50T, 50, 25, 10T, 10] descending).
+* Tests weren't added but def should have (sorry I don't do TDD).
