@@ -66,7 +66,7 @@ If you have any questions regarding requirements, do not hesitate to email your 
 ### Setup Backend 
 1. Go to the `/backend` folder.
     ```
-    cd /backend
+    cd backend/
     ```
 2. Create virtual env and activate.
     ```
@@ -94,7 +94,7 @@ If you have any questions regarding requirements, do not hesitate to email your 
 ***Note:*** Using a separate terminal from backend setup.
 1. Go to the `/backend` folder.
     ```
-    cd /frontend
+    cd frontend/
     ```
 2. Install dependencies.
    ```
