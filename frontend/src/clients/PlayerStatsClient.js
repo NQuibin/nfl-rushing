@@ -13,6 +13,6 @@ export default class PlayerStatsClient {
 
   downloadPlayerStats (params) {
     const query = new URLSearchParams(params)
-    window.location = `${this.client.defaults.baseURL}/v1/player-stats/download?${query.toString()}`
+    window.location.href = `${this.client.defaults.baseURL}/v1/player-stats/download?${query.toString()}`
   }
 }

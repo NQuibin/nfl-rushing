@@ -8,74 +8,35 @@
         <h1>the Rush</h1>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12"
-      >
-        <v-row align="center">
-          <v-col
-            cols="12"
-            sm="3"
-          >
-            <v-text-field
-              v-model.trim="searchText"
-              outlined
-              hide-details
-              placeholder="Filter by player name"
-              height="36"
-              @keydown.enter="onSearch"
-            />
-          </v-col>
-          <v-col>
-            <v-btn
-              depressed
-              color="primary"
-              class="mr-3"
-              @click="onSearch"
-            >
-              Search
-            </v-btn>
-            <v-btn
-              depressed
-              color="secondary"
-              @click="onDownload"
-            >
-              Download
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <v-data-table
-          height="65vh"
-          fixed-header
-          sort-by="player"
-          :headers="headers"
-          :items="stats"
-          :items-per-page="25"
-          :page="filters.page"
-          :server-items-length="totalPlayerStats"
-          :loading="isLoading"
-          :footer-props="{ itemsPerPageOptions: [5, 10, 25] }"
-          :must-sort="true"
-          @update:options="onUpdate"
-        />
-      </v-col>
-    </v-row>
+    <header-inputs
+      @search="onSearch"
+      @download="onDownload"
+    />
+    <player-stats-table
+      :total-player-stats="totalPlayerStats"
+      :stats="stats"
+      :page="filters.page"
+      :is-loading="isLoading"
+      @update="onUpdate"
+    />
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import HeaderInputs from '@/components/HeaderInputs'
+import PlayerStatsTable from '@/components/PlayerStatsTable'
 
 export default {
   name: 'PlayerStatsPage',
+  components: {
+    HeaderInputs,
+    PlayerStatsTable
+  },
   data () {
     return {
       isLoading: true,
-      searchText: null,
-      filters: {},
+      filters: {}
     }
   },
   computed: {
@@ -111,14 +72,14 @@ export default {
       getPlayerStats: 'playerStats/getPlayerStats',
       downloadPlayerStats: 'playerStats/downloadPlayerStats'
     }),
-    async onSearch () {
+    async onSearch (text) {
       this.isLoading = true
-      this.filters.player = this.searchText
+      this.filters.player = text
       this.filters.page = 1
 
       try {
         await this.getPlayerStats({
-          player: this.searchText,
+          player: text,
           sortField: this.filters.sortField,
           ascending: this.filters.ascending,
           pageSize: this.filters.pageSize
