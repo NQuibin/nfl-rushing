@@ -1,11 +1,18 @@
 <template>
   <v-container
     fluid
-    class="px-12"
+    class="player-stats-container px-12"
   >
     <v-row>
       <v-col cols="12">
-        <h1>the Rush</h1>
+        <h1>
+          <img
+            class="player-stats-container__logo d-inline-block mr-3"
+            alt="theScore logo"
+            src="@/assets/the_score.png"
+          />
+          the Rush
+        </h1>
       </v-col>
     </v-row>
     <header-inputs
@@ -44,25 +51,6 @@ export default {
       playerStats: 'playerStats/playerStats',
       totalPlayerStats: 'playerStats/totalPlayerStats'
     }),
-    headers () {
-      return [
-        { text: 'Player', align: 'start', value: 'player' },
-        { text: 'Team', value: 'team' },
-        { text: 'Pos', value: 'pos' },
-        { text: 'Att/G', value: 'att_g' },
-        { text: 'Att', value: 'att' },
-        { text: 'Yds', value: 'yds' },
-        { text: 'Avg', value: 'avg' },
-        { text: 'Yds/G', value: 'yds_g' },
-        { text: 'TD', value: 'td' },
-        { text: 'Lng', value: 'lng' },
-        { text: '1st', value: 'first' },
-        { text: '1st%', value: 'first_percentage' },
-        { text: '20+', value: 'twenty_plus' },
-        { text: '40+', value: 'forty_plus' },
-        { text: 'FUM', value: 'fum' }
-      ]
-    },
     stats () {
       return this.playerStats || []
     }
@@ -112,3 +100,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.player-stats-container {
+  &__logo {
+    height: 32px;
+    width: 32px;
+    vertical-align: sub;
+  }
+}
+</style>
