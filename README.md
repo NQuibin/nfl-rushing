@@ -64,9 +64,9 @@ If you have any questions regarding requirements, do not hesitate to email your 
 * Docker (download [here](https://www.docker.com/products/docker-desktop))
 
 ### Setup Backend 
-1. Go to the `/backend` folder.
+1. Go to the `backend/` folder.
     ```
-    cd /backend
+    cd backend/
     ```
 2. Create virtual env and activate.
     ```
@@ -92,9 +92,9 @@ If you have any questions regarding requirements, do not hesitate to email your 
 
 ### Setup Frontend
 ***Note:*** Using a separate terminal from backend setup.
-1. Go to the `/backend` folder.
+1. Go to the `frontend/` folder.
     ```
-    cd /frontend
+    cd frontend/
     ```
 2. Install dependencies.
    ```
