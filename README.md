@@ -73,3 +73,4 @@ If you have any questions regarding requirements, do not hesitate to email your 
 ### Remarks
 * For sorting on `Lng`, it is ordered by value and then if it's a touchdown ([50T, 50, 25, 10T, 10] descending).
 * Tests weren't added but def should have before going into prod.
+* Frontend framework used is Vue.js along with the Vuetify component library. They have an awesome set of components, especially a Data Table component which was used to present the data.
