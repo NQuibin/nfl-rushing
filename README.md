@@ -69,3 +69,7 @@ If you have any questions regarding requirements, do not hesitate to email your 
     ```
 
 3. Navigate to web app with http://localhost:8080/.
+
+### Remarks
+* For sorting on `Lng`, it is ordered by value and then if it's a touchdown ([50T, 50, 25, 10T, 10] descending).
+* Tests weren't added but def should have before going into prod.
