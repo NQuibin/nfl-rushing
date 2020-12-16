@@ -58,50 +58,14 @@ If you have any questions regarding requirements, do not hesitate to email your 
 ---
 
 #### Requirements
-* `python3.8+` (download [here](https://www.python.org/downloads/release/python-386/)).
-* `node v14.8.0+` (download [here](https://nodejs.org/en/download/))
-* `yarn v1.19.0+` (download [here](https://classic.yarnpkg.com/en/docs/install))
-* Docker (download [here](https://www.docker.com/products/docker-desktop))
-
-### Setup Backend 
-1. Go to the `/backend` folder.
-    ```
-    cd /backend
-    ```
-2. Create virtual env and activate.
-    ```
-    python3.8 -m venv venv
-    source venv/bin/activate
-    ```
-3. Download requirements.
-    ```
-    pip install -r requirements.txt
-    ```
-4. Run `MongoDB` database container.
+1. Run `docker-compose`.
     ```
     docker-compose up --build -d
     ```
-5. Add seed data to db.
+
+2. Seed db data.
     ```
-    python3.8 seed/seed.py seed/rushing.json
-    ```
-6. Run local server.
-    ```
-   uvicorn app.main:app --reload
+   docker exec thescore-be python seed/seed.py seed/rushing.json
     ```
 
-### Setup Frontend
-***Note:*** Using a separate terminal from backend setup.
-1. Go to the `/backend` folder.
-    ```
-    cd /frontend
-    ```
-2. Install dependencies.
-   ```
-   yarn install
-   ```
-3. Run local server.
-   ```
-   yarn serve
-   ```
-4. Navigate to url shown (ex. http://localhost:8080/) to open app.
+3. Navigate to web app with http://localhost:8080/.

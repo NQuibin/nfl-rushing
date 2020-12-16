@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: thescore-db
+    image: mongo:4.4.1
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: thescore
+      MONGO_INITDB_ROOT_PASSWORD: thescore123123
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./backend/local/db:/data/db
+  server:
+    container_name: thescore-be
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - "./backend:/backend"
+    depends_on:
+      - db
+    links:
+      - "db"
+  ui:
+    container_name: thescore-ui
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./frontend:/frontend"
+      - "/frontend/node_modules"

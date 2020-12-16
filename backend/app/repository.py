@@ -9,7 +9,7 @@ client = None
 def get_collection() -> Collection:
     global client
     if client is None:
-        client = MongoClient(f'mongodb://thescore:thescore123123@localhost:27017/thescore?authSource=admin')
+        client = MongoClient(f'mongodb://thescore:thescore123123@db:27017/thescore?authSource=admin')
 
     db = client.theScore
     return db.playerStats
